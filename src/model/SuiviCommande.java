@@ -110,7 +110,11 @@ public class SuiviCommande implements Serializable  {
 		obj.put("idus", this.getIdus());
 		obj.put("idpr", this.getIdpr());
 		obj.put("idcm", this.getIdcm());
-	   
+		obj.put("data", this.getdate().toString());
+		obj.put("price", this.getprice());
+		obj.put("state", this.getstate());
+		
+		
 		return obj.toString()	;
 	}
 	
