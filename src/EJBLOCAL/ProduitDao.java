@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import model.Formation;
 import model.Produit;
+import model.ProduitCommande;
 import model.Utilisateur;
 
 /**
@@ -44,14 +45,21 @@ public class ProduitDao implements ProduitDaoLocal {
     
     
     public List<Produit> getProductsByUser( int idus){
- 		Produit produit = null;
- 		 
- 		String sql = "SELECT u FROM Produit u WHERE u.idus=:arg1   ";
+    	List<Produit> produits = null; 
+ 		//String sql = "SELECT u  (SELECT  COUNT(s.idpr) FROM SuiviCommande s ) as count FROM Produit u  WHERE u.idus=:arg1    ";        
+    		String sql = "SELECT u  FROM Produit u  WHERE u.idus=:arg1    ";        
  		Query query = this.em.createQuery(sql);	 
  		query.setParameter("arg1", idus);
  		
+ 		/*List<Produit> l = query.getResultList();
+ 		for(Produit p:l){
+ 		      System.out.println(p.getTitle() );
+ 		    }
+ 		*/
+ 		//System.out.println(query.getResultList().toString());
+ 		 
  		 try {
- 		List<Produit> produits = query.getResultList();
+ 		  produits = query.getResultList();
  		  return produits ; 
  		 }catch(Exception e ) {
 			 return null;

@@ -1,6 +1,8 @@
 package Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import EJBLOCAL.Connection;
@@ -37,7 +40,8 @@ public class product extends HttpServlet {
         response.setCharacterEncoding("utf-8");
          
 		JSONObject obj = new JSONObject();
-		
+		JSONArray arrayjson = new JSONArray();
+		List<Produit> produits ; 
 		
 		Produit produit; 
 		int choice =0; 
@@ -46,15 +50,21 @@ public class product extends HttpServlet {
 		// 2> update 
 		// 3> delete 
 		// 4> getInfo 
-		// 5> getlist
+		// 5> getlist product 
+		// 6> getlist product by user
+		
 		
 		if(request.getParameter("choice") != null) { choice = Integer.parseInt(request.getParameter("choice")) ; }
 		
 		switch( choice ) {
 		
 		case(1) : 
-			  produit = new Produit() ; 
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+            String date = "16/08/2016";
+			LocalDate localDate = LocalDate.parse(date, formatter);
 			
+			  produit = new Produit(1,1,"aa","aa","aa",0,0,0, localDate ) ; 
+			  
 			data.create(produit);
 			
 			break; 
@@ -84,18 +94,18 @@ public class product extends HttpServlet {
 				obj.put("pricemin", produit.getPriceMin());
 				obj.put("pricemax", produit.getPriceMax());
 				obj.put("zipcode", produit.getZipcode());
-				obj.put("expiration_date", produit.getExpirationdate());
+				obj.put("expiration_date", produit.getExpirationdate().toString() );
 				
 			}else {
-				obj.put("idus", null);
-				obj.put("idpr", null);
-				obj.put("title", null);
-				obj.put("description", null);
-				obj.put("linkpicture", null);
-				obj.put("pricemin", null);
-				obj.put("pricemax", null );
-				obj.put("zipcode", null );
-				obj.put("expiration_date", null);
+				obj.put("idus", 0);
+				obj.put("idpr", 0);
+				obj.put("title", "inconnu");
+				obj.put("description", "inconnu");
+				obj.put("linkpicture", "error.jpg");
+				obj.put("pricemin", 0);
+				obj.put("pricemax", 0 );
+				obj.put("zipcode", 0 );
+				obj.put("expiration_date", "inconnu" );
 			}
 				
 				response.getWriter().append(obj.toString());	
@@ -104,16 +114,33 @@ public class product extends HttpServlet {
 			
 		case(5) : 
 			
-			List<Produit> produits = data.getProducts(); 
-		
-		int i=1; 
-		for(Produit Pr : produits ) {
-		obj.put(i, Pr.toJson() );	
-		i++; 	
-			}
 			
-		response.getWriter().append(obj.toString());	
-			break;
+			    produits = data.getProducts(); 
+		if( produits !=null  ) {  
+		
+			for(Produit Pr : produits ) { arrayjson.add(Pr.toJson()); }
+		 response.getWriter().append(arrayjson.toString().replace("\"{", "{").replace("}\"", "}").replace("\\", "")  );	
+		
+		}else { response.getWriter().append("[]");	  }
+		 
+		 break;
+			
+			
+			case(6) : 
+				ID = Integer.parseInt(request.getParameter("ID")) ;
+				
+			
+			      produits = data.getProductsByUser(ID);			
+				  
+				  if( produits !=null  ) {  
+		 
+		for(Produit Pr : produits ) { arrayjson.add(Pr.toJson()); }
+		response.getWriter().append(arrayjson.toString().replace("\"{", "{").replace("}\"", "}").replace("\\", "")  );	
+		
+				  }else { response.getWriter().append("[]");	  }
+		
+			 break;	
+			
 		
 		}
 		

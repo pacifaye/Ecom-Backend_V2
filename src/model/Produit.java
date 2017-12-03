@@ -2,15 +2,20 @@ package model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.json.simple.JSONObject;
+
+
 
 
 
@@ -54,6 +59,9 @@ public class Produit implements Serializable {
 	private LocalDate expiration_date;
 	
 	 
+	@OneToMany(targetEntity=SuiviCommande.class )
+    private Collection<SuiviCommande> suivi = new ArrayList<SuiviCommande>();
+    
 
 	public Produit(int idpr, int idus, String title,String description, String linkpicture, int pricemin,int pricemax,int zipcode,LocalDate date){
 		 this.idpr= idpr; 
@@ -152,6 +160,10 @@ public class Produit implements Serializable {
 		this.expiration_date = savedate;
 	}
 	
+	public String toString() {
+		
+		return this.getIdpr() + "-" + this.suivi.size(); 
+	}
 	
 	public String toJson() {
 		
@@ -164,9 +176,9 @@ public class Produit implements Serializable {
 		obj.put("pricemin", this.getPriceMin());
 		obj.put("pricemax", this.getPriceMax());
 		obj.put("zipcode", this.getZipcode());
-		obj.put("expiration_date", this.getExpirationdate());
+		obj.put("expiration_date", this.getExpirationdate().toString());
 	   
-		return obj.toJSONString()	;
+		return obj.toString()	;
 	}
 	 
 }

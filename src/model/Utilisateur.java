@@ -5,14 +5,15 @@ import java.io.Serializable;
 import java.lang.String;
 import java.time.LocalDate;
 import javax.persistence.*;
-
+import org.json.simple.JSONObject;
+ 
 /**
  * Entity implementation class for Entity: Utilisateur
  *
  */
 @Entity
 @Table(name="Utilisateur") 
-public class Utilisateur implements Serializable {
+public class Utilisateur implements  Serializable {
 
 	public Utilisateur( int ID, String Email) {
 		this.idus = ID; 

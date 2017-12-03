@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.json.simple.JSONObject;
+
 
 @Entity
 @Table(name="SuiviCommande") 
@@ -23,6 +25,9 @@ public class SuiviCommande implements Serializable  {
 	@Column(name="IDUS")
 	private int idus;
 	
+	@Column(name="IDPR")
+	private int idpr;
+	
 	@Column(name="DATE")
 	private LocalDate date;
 	
@@ -35,15 +40,23 @@ public class SuiviCommande implements Serializable  {
 	
 	
 	public SuiviCommande() {}
-	public SuiviCommande( int idcm, int idus, LocalDate date, int price ,int state  ) {
+	public SuiviCommande( int idcm, int idus, int idpr,  LocalDate date, int price ,int state  ) {
 		this.idcm = idcm  ;
 		this.idus = idus; 
+		this.idpr= idpr; 
 		this.date = date ;
 		this.price = price ; 
 		this.state = state ; 
 					
 	}
 	
+	public int getIdpr() {
+		return this.idpr;
+	}
+
+	public void setIdpr(int idpr) {
+		this.idpr = idpr;
+	}
 	
 	public int getIdcm() {
 		return this.idcm;
@@ -88,6 +101,17 @@ public class SuiviCommande implements Serializable  {
 	
 	public void setdate(LocalDate savedate) {
 		this.date = savedate;
+	}
+	
+	
+	public String toJson() {
+		
+		JSONObject obj = new JSONObject();
+		obj.put("idus", this.getIdus());
+		obj.put("idpr", this.getIdpr());
+		obj.put("idcm", this.getIdcm());
+	   
+		return obj.toString()	;
 	}
 	
 	
