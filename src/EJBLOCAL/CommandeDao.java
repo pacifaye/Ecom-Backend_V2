@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import model.Commande;
 import model.Produit;
+import model.SuiviCommande;
 
 /**
  * Session Bean implementation class CommandeDao
@@ -42,7 +43,11 @@ public class CommandeDao implements CommandeDaoLocal {
     @Override
     @Transactional 
     public void delete(final int id) {
-      //  this.em.remove(this.em.getReference(type, id));
+      	Commande p = em.find(Commande.class, id);
+		if(p!= null){
+		 	 em.remove(p);
+		}
+	
     }
     
     @Override

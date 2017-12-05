@@ -30,7 +30,7 @@ public class Produit implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY )
+	@GeneratedValue(strategy = GenerationType.AUTO )
 	@Column(name="IDPR")
 	private int idpr;
 	
@@ -62,9 +62,18 @@ public class Produit implements Serializable {
 	@OneToMany(targetEntity=SuiviCommande.class )
     private Collection<SuiviCommande> suivi = new ArrayList<SuiviCommande>();
     
-
-	public Produit(int idpr, int idus, String title,String description, String linkpicture, int pricemin,int pricemax,int zipcode,LocalDate date){
+	
+	public Produit(int idpr, String title , String description , LocalDate date){
 		 this.idpr= idpr; 
+		 this.title=title; 
+		 this.description= description; 
+		 this.expiration_date=date; 
+		
+	}
+	
+
+	public Produit( int idus, String title,String description, String linkpicture, int pricemin,int pricemax,int zipcode,LocalDate date){
+		// this.idpr= idpr; 
 		 this.idus= idus; 
 		 this.title=title; 
 		 this.linkpicture= linkpicture;

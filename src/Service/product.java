@@ -53,24 +53,31 @@ public class product extends HttpServlet {
 		// 5> getlist product 
 		// 6> getlist product by user
 		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        String date = "16/08/2016";
+		LocalDate localDate = LocalDate.parse(date, formatter);
+		
+		
 		
 		if(request.getParameter("choice") != null) { choice = Integer.parseInt(request.getParameter("choice")) ; }
 		
 		switch( choice ) {
 		
 		case(1) : 
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-            String date = "16/08/2016";
-			LocalDate localDate = LocalDate.parse(date, formatter);
 			
-			  produit = new Produit(1,1,"aa","aa","aa",0,0,0, localDate ) ; 
+			 	
+		 	
+			  produit = new Produit(1993,"aa","aa","aa",0,0,0, localDate ) ; 
 			  
 			data.create(produit);
 			
 			break; 
 		case(2) : 
 			//Update que quelques champs
-			  produit = new Produit() ; 
+			 produit = new Produit(1993,"Table X2","aa","aa",0,0,0, localDate ) ; 
+		  
+		   // produit = new Produit(19,"Table X2","aa", localDate );
+			  
 		    data.update(produit);
 			 
 			break;

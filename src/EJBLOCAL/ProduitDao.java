@@ -98,7 +98,12 @@ public class ProduitDao implements ProduitDaoLocal {
     @Override
     @Transactional 
     public void delete(final int id) {
-      //  this.em.remove(this.em.getReference(type, id));
+    	Produit p = em.find(Produit.class, id);
+		if(p!= null){
+			System.out.println("Produit à supprimer trouvé");
+			 
+			em.remove(p);
+		}
     }
     
     @Override

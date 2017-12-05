@@ -64,10 +64,12 @@ public class myoffers extends HttpServlet {
 			
 			case(3) : 
 			
+			ID = Integer.parseInt(request.getParameter("ID")) ;
+			 data.delete(ID);
 				
 			break; 
 			
-			case(4) : 
+			case(4) :  // Acheteur
 				ID = Integer.parseInt(request.getParameter("ID")) ;
 			
 				Offers = data.getOffersByProduct(ID) ;
@@ -77,6 +79,21 @@ public class myoffers extends HttpServlet {
 			 response.getWriter().append(arrayjson.toString().replace("\"{", "{").replace("}\"", "}").replace("\\", "")  );	
 			
 			}else { response.getWriter().append("[]");	  }
+				
+				
+				
+			break; 
+			
+			case(5) :  // Acheteur
+				ID = Integer.parseInt(request.getParameter("ID")) ;
+			
+				Offers = data.getOffersByUser(ID) ;
+			if( Offers !=null  ) {  
+			
+				for(SuiviCommande offre : Offers ) { arrayjson.add(offre.toJson()); }
+			 response.getWriter().append(arrayjson.toString().replace("\"{", "{").replace("}\"", "}").replace("\\", "")  );	
+			
+			}else {    response.getWriter().append("[]");	  }
 				
 				
 				

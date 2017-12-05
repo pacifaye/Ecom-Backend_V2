@@ -3,11 +3,13 @@ package model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.json.simple.JSONObject;
@@ -24,7 +26,7 @@ public class SuiviCommande implements Serializable  {
 	
 	@Column(name="IDUS")
 	private int idus;
-	
+	 
 	@Column(name="IDPR")
 	private int idpr;
 	
