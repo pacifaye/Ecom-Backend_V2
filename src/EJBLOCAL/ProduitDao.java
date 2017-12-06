@@ -1,5 +1,7 @@
 package EJBLOCAL;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -87,11 +89,31 @@ public class ProduitDao implements ProduitDaoLocal {
 		 
 	}
     
+    @Override
+    @Transactional 
+    public void update( int id , String title, String Description, String date  ) {
+        Produit p = em.find(Produit.class, id);
+     	 if(p!= null){
+    			p.setTitle(title);
+    	     	p.setDescription(Description);
+    	     	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+    	        LocalDate localDate = LocalDate.parse(date, formatter);
+    	        p.setExpirationdate(localDate);
+    		 	this.em.merge(p);
+    		}
+   
+    }
     
     @Override
     @Transactional 
-    public Produit update(final Produit t) {
-        return this.em.merge(t);
+    public void updateDon( int id  ) {
+        Produit p = em.find(Produit.class, id);
+     	if(p!= null){
+     		p.setPriceMax(0);
+         	p.setPriceMin(0);
+        		 this.em.merge(p);
+    		}
+   
     }
     
     
@@ -105,6 +127,10 @@ public class ProduitDao implements ProduitDaoLocal {
 			em.remove(p);
 		}
     }
+    
+    
+    
+    
     
     @Override
     @Transactional 

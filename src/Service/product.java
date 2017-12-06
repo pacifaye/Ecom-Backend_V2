@@ -43,9 +43,17 @@ public class product extends HttpServlet {
 		JSONArray arrayjson = new JSONArray();
 		List<Produit> produits ; 
 		
+		
+		
 		Produit produit; 
 		int choice =0; 
 		int ID = 0; 
+		String title ="";
+	    String desc = "";
+	    String dt ="";
+	    String linkpicture="";
+	    int idus=0;
+	    int codepostale= 0; 
 		// 1> create 
 		// 2> update 
 		// 3> delete 
@@ -54,8 +62,8 @@ public class product extends HttpServlet {
 		// 6> getlist product by user
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-        String date = "16/08/2016";
-		LocalDate localDate = LocalDate.parse(date, formatter);
+         
+		LocalDate localDate ;
 		
 		
 		
@@ -63,23 +71,36 @@ public class product extends HttpServlet {
 		
 		switch( choice ) {
 		
-		case(1) : 
+		case(0) : 
 			
-			 	
-		 	
-			  produit = new Produit(1993,"aa","aa","aa",0,0,0, localDate ) ; 
-			  
-			data.create(produit);
+			idus= Integer.parseInt(request.getParameter("idus")) ;
+			title = request.getParameter("title") ;
+	        desc = request.getParameter("desc") ;
+	        dt = request.getParameter("date") ;
+	        localDate = LocalDate.parse(dt, formatter);
+	        codepostale=Integer.parseInt(request.getParameter("codep")) ;
+	        linkpicture= request.getParameter("link") ;;
+	     produit = new Produit(idus,title,desc,linkpicture,0,0,codepostale, localDate ) ; 
+			
+	         data.create(produit);
 			
 			break; 
-		case(2) : 
-			//Update que quelques champs
-			 produit = new Produit(1993,"Table X2","aa","aa",0,0,0, localDate ) ; 
-		  
-		   // produit = new Produit(19,"Table X2","aa", localDate );
-			  
-		    data.update(produit);
-			 
+		   case(1) : 
+			   // data.update(produit);
+		    	ID = Integer.parseInt(request.getParameter("ID")) ;
+		     data.updateDon(ID);
+		    
+			break;
+		    case(2) : 
+			   // data.update(produit);
+		    	ID = Integer.parseInt(request.getParameter("ID")) ;
+		    title = request.getParameter("title") ;
+		    desc = request.getParameter("desc") ;
+		    dt = request.getParameter("date") ;
+			
+		    System.out.println(ID+title+desc+dt);
+		    data.update(ID, title, desc, dt);
+		    
 			break;
 		
 		case(3) : 

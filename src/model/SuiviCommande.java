@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -16,11 +17,16 @@ import org.json.simple.JSONObject;
 
 
 @Entity
+//@IdClass( SCIdentifier.class) 
 @Table(name="SuiviCommande") 
 public class SuiviCommande implements Serializable  {
 
+	 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY )
+	@Column(name="IDSC")
+	private int idsc;
+	
 	@Column(name="IDCM")
 	private int idcm;
 	
@@ -42,14 +48,22 @@ public class SuiviCommande implements Serializable  {
 	
 	
 	public SuiviCommande() {}
-	public SuiviCommande( int idcm, int idus, int idpr,  LocalDate date, int price ,int state  ) {
+	public SuiviCommande(int idsc, int idcm, int idus, int idpr,  LocalDate date, int price ,int state  ) {
+		this.idsc = idsc;
 		this.idcm = idcm  ;
 		this.idus = idus; 
 		this.idpr= idpr; 
 		this.date = date ;
 		this.price = price ; 
 		this.state = state ; 
-					
+	}
+	
+	public int getIdsc() {
+		return this.idsc;
+	}
+
+	public void setIdsc(int idsc) {
+		this.idsc = idsc;
 	}
 	
 	public int getIdpr() {
@@ -109,6 +123,7 @@ public class SuiviCommande implements Serializable  {
 	public String toJson() {
 		
 		JSONObject obj = new JSONObject();
+		obj.put("idsc", this.getIdsc());
 		obj.put("idus", this.getIdus());
 		obj.put("idpr", this.getIdpr());
 		obj.put("idcm", this.getIdcm());

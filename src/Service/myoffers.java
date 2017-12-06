@@ -41,7 +41,8 @@ public class myoffers extends HttpServlet {
 			List<SuiviCommande> Offers ; 
 			int choice =0; 
 			int ID = 0; 
-			
+			int ST = 0; 
+			int price = 0; 
 			// 1> create 
 			// 2> update 
 			// 3> delete 
@@ -51,14 +52,26 @@ public class myoffers extends HttpServlet {
 			if(request.getParameter("choice") != null) { choice = Integer.parseInt(request.getParameter("choice")) ; }
 			
 			switch( choice ) {
+			case(0) : 
+			
+			
+			
+			break;
 			
 			case(1) : 
-			
+				
+				ID = Integer.parseInt(request.getParameter("ID")) ;
+		        price = Integer.parseInt(request.getParameter("PR")) ;
+		
+		    data.updateprice(ID, price);
 				
 			break; 
 			
 			case(2) : 
+				ID = Integer.parseInt(request.getParameter("ID")) ;
+			    ST = Integer.parseInt(request.getParameter("ST")) ;
 			
+			    data.update(ID, ST);
 				
 			break; 
 			
