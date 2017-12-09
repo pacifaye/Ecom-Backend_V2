@@ -75,17 +75,13 @@ public class ProduitDao implements ProduitDaoLocal {
     public Produit getProductInfo(int ID){
 		Produit produit = null;
 		 
-		String sql = "SELECT u FROM Produit u WHERE u.idpr=:arg1  ";
+		String sql = "SELECT u FROM Produit u WHERE u.idpr="+ID+"";
 		Query query = this.em.createQuery(sql);	 
-		query.setParameter("arg1", ID); 
 		
-		 try {
-			 produit = (Produit) query.getSingleResult();
-			 return produit ; 
-		 }catch(Exception e ) {
-			 return null;
-		 }
-		 
+		produit = (Produit) query.getSingleResult();
+		
+		return produit ; 
+		
 		 
 	}
     

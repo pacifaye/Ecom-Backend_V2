@@ -34,17 +34,12 @@ public class SuiviCommandeDao implements SuiviCommandeDaoLocal {
     public List<SuiviCommande> getOffersByProduct( int idpr){
     	List<SuiviCommande> listing = null; 
  		
-    	    String sql = "SELECT u  FROM SuiviCommande u  WHERE u.idpr=:arg1    ";        
+    	String sql = "SELECT u  FROM SuiviCommande u  WHERE u.idpr="+idpr+"";        
  		Query query = this.em.createQuery(sql);	 
- 		query.setParameter("arg1", idpr);
- 		
  		 	 
- 		 try {
- 			listing = query.getResultList();
- 		  return listing ; 
- 		 }catch(Exception e ) {
-			 return null;
-		 }
+ 		 listing = query.getResultList();
+ 		 
+ 		 return listing;
  		   
  	}
     
@@ -52,17 +47,14 @@ public class SuiviCommandeDao implements SuiviCommandeDaoLocal {
     public List<SuiviCommande> getOffersByUser( int idus){
     	List<SuiviCommande> listing = null; 
  		
-    	    String sql = "SELECT u  FROM SuiviCommande u  WHERE u.idus=:arg1    ";        
+    	String sql = "SELECT u  FROM SuiviCommande u  WHERE u.idus="+idus+"";        
  		Query query = this.em.createQuery(sql);	 
- 		query.setParameter("arg1", idus);
- 		
+ 	
+ 		listing = query.getResultList();
+ 		 
+ 		 return listing;
+ 		   
  		 	 
- 		 try {
- 			listing = query.getResultList();
- 		  return listing ; 
- 		 }catch(Exception e ) {
-			 return null;
-		 }
  		   
  	}
     

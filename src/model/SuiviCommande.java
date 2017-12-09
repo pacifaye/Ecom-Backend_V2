@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
@@ -37,7 +38,7 @@ public class SuiviCommande implements Serializable  {
 	private int idpr;
 	
 	@Column(name="DATE")
-	private LocalDate date;
+	private Date date;
 	
 	@Column(name="PRICE")
 	private int price;
@@ -48,12 +49,11 @@ public class SuiviCommande implements Serializable  {
 	
 	
 	public SuiviCommande() {}
-	public SuiviCommande(int idsc, int idcm, int idus, int idpr,  LocalDate date, int price ,int state  ) {
-		this.idsc = idsc;
+	public SuiviCommande(int idcm, int idus, int idpr,  LocalDate date, int price ,int state  ) {
 		this.idcm = idcm  ;
 		this.idus = idus; 
 		this.idpr= idpr; 
-		this.date = date ;
+		this.date = Date.valueOf(date) ;
 		this.price = price ; 
 		this.state = state ; 
 	}
@@ -112,11 +112,11 @@ public class SuiviCommande implements Serializable  {
 	
 	
 	public LocalDate getdate() {
-		return this.date;
+		return this.date.toLocalDate();
 	}
 	
 	public void setdate(LocalDate savedate) {
-		this.date = savedate;
+		this.date = Date.valueOf(savedate);
 	}
 	
 	
@@ -127,7 +127,40 @@ public class SuiviCommande implements Serializable  {
 		obj.put("idus", this.getIdus());
 		obj.put("idpr", this.getIdpr());
 		obj.put("idcm", this.getIdcm());
-		obj.put("data", this.getdate().toString());
+		obj.put("date", this.getdate().toString());
+		obj.put("price", this.getprice());
+		obj.put("state", this.getstate());
+		
+		
+		return obj.toString()	;
+	}
+	
+	public String toJson(int count) {
+		
+		JSONObject obj = new JSONObject();
+		obj.put("NbOffres", count);
+		obj.put("idsc", this.getIdsc());
+		obj.put("idus", this.getIdus());
+		obj.put("idpr", this.getIdpr());
+		obj.put("idcm", this.getIdcm());
+		obj.put("date", this.getdate().toString());
+		obj.put("price", this.getprice());
+		obj.put("state", this.getstate());
+		
+		
+		return obj.toString()	;
+	}
+	
+	public String toJson(Produit prod) {
+		// Ici j utilise que le nom du produit mais vu qu en parametre c est un produit t as acces aux autres 
+		// champs comme description etc
+		JSONObject obj = new JSONObject();
+		obj.put("ProductName", prod.getTitle());
+		obj.put("idsc", this.getIdsc());
+		obj.put("idus", this.getIdus());
+		obj.put("idpr", this.getIdpr());
+		obj.put("idcm", this.getIdcm());
+		obj.put("date", this.getdate().toString());
 		obj.put("price", this.getprice());
 		obj.put("state", this.getstate());
 		

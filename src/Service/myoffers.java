@@ -1,6 +1,7 @@
 package Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -27,6 +28,8 @@ public class myoffers extends HttpServlet {
 
     @EJB
 	private SuiviCommandeDao data;
+    @EJB
+    private ProduitDao dataV;
 
     public myoffers() {  super();  }
 
@@ -53,9 +56,14 @@ public class myoffers extends HttpServlet {
 			
 			switch( choice ) {
 			case(0) : 
-			
-			
-			
+				// Nouvel Ajout (1)
+				int idcm = Integer.parseInt(request.getParameter("idcm"));
+				int idus = Integer.parseInt(request.getParameter("idus"));
+				int idpr = Integer.parseInt(request.getParameter("idpr"));
+				price = Integer.parseInt(request.getParameter("price"));
+				data.create(new SuiviCommande(idcm,idus,idpr,LocalDate.now(),price,0)); 
+				
+				// http://127.0.0.1:8080/JPAEJB/myoffers?choice=0&idcm=1&idus=1994&idpr=89&price=45
 			break;
 			
 			case(1) : 
@@ -87,13 +95,22 @@ public class myoffers extends HttpServlet {
 			
 				Offers = data.getOffersByProduct(ID) ;
 			if( Offers !=null  ) {  
-			
-				for(SuiviCommande offre : Offers ) { arrayjson.add(offre.toJson()); }
+				int count = Offers.size(); 
+				System.out.println("nombre de commandes sur ce produit : "+count);
+				//ajouter count ici permet de le separer des offres (au cas tu ne veux recuperer que ca)
+		//Je le mets en commentaire vu que tu le voulais à l interieur de l affichage des offres
+				//arrayjson.add(count);
+				
+				for(SuiviCommande offre : Offers ) { 
+					//Affichage de count dans chaque offre, si tu veux l enlever il te suffit d enlever le parametre
+					arrayjson.add(offre.toJson(count)); 
+				}
+				
 			 response.getWriter().append(arrayjson.toString().replace("\"{", "{").replace("}\"", "}").replace("\\", "")  );	
 			
 			}else { response.getWriter().append("[]");	  }
 				
-				
+			// Test Navigateur : http://127.0.0.1:8080/JPAEJB/myoffers?choice=4&ID=89
 				
 			break; 
 			
@@ -103,12 +120,17 @@ public class myoffers extends HttpServlet {
 				Offers = data.getOffersByUser(ID) ;
 			if( Offers !=null  ) {  
 			
-				for(SuiviCommande offre : Offers ) { arrayjson.add(offre.toJson()); }
+				for(SuiviCommande offre : Offers ) { 
+					Produit current_prod = dataV.getProductInfo(offre.getIdpr());
+					
+					arrayjson.add(offre.toJson(current_prod)); 
+				}
+				
 			 response.getWriter().append(arrayjson.toString().replace("\"{", "{").replace("}\"", "}").replace("\\", "")  );	
 			
 			}else {    response.getWriter().append("[]");	  }
 				
-				
+			// Test navigateur : 127.0.0.1:8080/JPAEJB/myoffers?choice=5&ID=1994	
 				
 			break; 
 			

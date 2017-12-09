@@ -94,9 +94,9 @@ public class product extends HttpServlet {
 		    case(2) : 
 			   // data.update(produit);
 		    	ID = Integer.parseInt(request.getParameter("ID")) ;
-		    title = request.getParameter("title") ;
-		    desc = request.getParameter("desc") ;
-		    dt = request.getParameter("date") ;
+		    	title = request.getParameter("title") ;
+		    	desc = request.getParameter("desc") ;
+		    	dt = request.getParameter("date") ;
 			
 		    System.out.println(ID+title+desc+dt);
 		    data.update(ID, title, desc, dt);
