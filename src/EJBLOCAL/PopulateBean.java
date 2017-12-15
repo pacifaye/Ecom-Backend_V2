@@ -70,28 +70,40 @@ public class PopulateBean implements PopulateBeanLocal {
 	@Override
 	@Transactional
 	public void createProducts(int nbUsers, int nbProd) {
-		Random rm = new Random();
 		int maxProd = 50;
+		Random rm = new Random();
 		Products prod;
 		
-		for(int i = 0; i < nbProd; i++){
-			int RandomUser = rm.nextInt(nbUsers - 1 + 1) + 1;
-			int RandomProd = rm.nextInt(maxProd - 1 + 1) + 1;
-			String ProdName = "Product"+RandomProd;
+		// Creer une liste contenant des nombres de 1 à MaxProduit Predefinis
+			ArrayList<Integer> listProd = new ArrayList<Integer>();
+			for(int i=1; i < maxProd+1; i++) {
+			   
+				listProd.add(new Integer(i));
+			}
 			
-			System.out.println("User"+RandomUser+" associated to product"+RandomProd);
-			prod = Products.valueOf(ProdName);
+		// Utiliser la fonction shuffle pour melanger la liste 
+		   Collections.shuffle(listProd);  
 			
-			String title =  prod.getTitle();
-			String description = prod.getDescription();
-			String linkpicture = prod.getLink();
-			int pricemin = Integer.parseInt(prod.getPrixMin());
-			int pricemax = Integer.parseInt(prod.getPrixMax());
-			int zipcode = Integer.parseInt(prod.getCodePostal());
-			
-			Produit p = new Produit(RandomUser, title, description, linkpicture, pricemin, pricemax, zipcode, LocalDate.now());
-			System.out.println(p.toString());
-			em.persist(p);
+		if(nbProd <= maxProd){
+			for(int i = 0; i < nbProd; i++){
+				int RandomUser = rm.nextInt(nbUsers - 1 + 1) + 1;
+				int RandomProd = listProd.get(i);
+				String ProdName = "Product"+RandomProd;
+				
+				System.out.println("User"+RandomUser+" associated to product"+RandomProd);
+				prod = Products.valueOf(ProdName);
+				
+				String title =  prod.getTitle();
+				String description = prod.getDescription();
+				String linkpicture = prod.getLink();
+				int pricemin = Integer.parseInt(prod.getPrixMin());
+				int pricemax = Integer.parseInt(prod.getPrixMax());
+				int zipcode = Integer.parseInt(prod.getCodePostal());
+				
+				Produit p = new Produit(RandomUser, title, description, linkpicture, pricemin, pricemax, zipcode, LocalDate.now());
+				System.out.println(p.toString());
+				em.persist(p);
+			}
 		}
 	}
 

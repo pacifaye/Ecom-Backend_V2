@@ -57,7 +57,7 @@ public class Populate extends HttpServlet {
 			}		
 		}
 		
-		// Test Navigateur : http://127.0.0.1:8080/JPAEJB/populate?nbUser=20&nbProd=100
+		// Test Navigateur : http://127.0.0.1:8080/JPAEJB/populate?nbUser=20&nbProd=50
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
