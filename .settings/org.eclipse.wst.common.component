@@ -2,7 +2,7 @@
     <wb-module deploy-name="JPAEJB">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <dependent-module archiveName="json-simple-1.1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//Users/shannix/Desktop/JAR/json-simple-1.1.1.jar">
+        <dependent-module archiveName="json-simple-1.1.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib//home/hacknblast/Bureau/Ab New School/FOURTH YEAR/S1/Projet Integration ECOM/Code/Sauvegarde_Ecom_BackEnd/Sauvegarde_Ecom_BackEnd/Jar/json-simple-1.1.1.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/JPAEJB/build/classes"/>

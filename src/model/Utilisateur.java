@@ -3,8 +3,11 @@ package model;
  
 import java.io.Serializable;
 import java.lang.String;
+import java.sql.Date;
 import java.time.LocalDate;
+
 import javax.persistence.*;
+
 import org.json.simple.JSONObject;
  
 /**
@@ -43,7 +46,7 @@ public class Utilisateur implements  Serializable {
 	private int phone;
 	
 	@Column(name="SUSCRIBDATE")
-	private LocalDate savedate;
+	private Date savedate;
 	
 	@Column(name="STATE")
 	private int state;
@@ -57,7 +60,7 @@ public class Utilisateur implements  Serializable {
 		this.fname = prenom;
 		this.email = email;
 		this.phone = phone;
-		this.savedate = date;
+		this.savedate = Date.valueOf(date);
 		this.state = 1;
 		this.password = password;
 	}
@@ -106,12 +109,12 @@ public class Utilisateur implements  Serializable {
 		this.phone = phone;
 	}
 	
-	public LocalDate getSavedate() {
+	public Date getSavedate() {
 		return this.savedate;
 	}
 
 	public void setSavedate(LocalDate savedate) {
-		this.savedate = savedate;
+		this.savedate = Date.valueOf(savedate);
 	}
 	
 	public int getState() {

@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,7 +57,7 @@ public class Produit implements Serializable {
 	private int zipcode;
 	
 	@Column(name="EXPIRATION_DATE")
-	private LocalDate expiration_date;
+	private Date expiration_date;
 	
 	 
 	@OneToMany(targetEntity=SuiviCommande.class )
@@ -67,7 +68,7 @@ public class Produit implements Serializable {
 		 this.idpr= idpr; 
 		 this.title=title; 
 		 this.description= description; 
-		 this.expiration_date=date; 
+		 this.expiration_date= Date.valueOf(date); 
 		
 	}
 	
@@ -81,7 +82,7 @@ public class Produit implements Serializable {
 		this.pricemin= pricemin; 
 		this.pricemax= pricemax; 
 		this.zipcode = zipcode; 
-		this.expiration_date=date; 
+		this.expiration_date= Date.valueOf(date); 
 		
 	}
 	
@@ -161,12 +162,12 @@ public class Produit implements Serializable {
 	}
 	
 	
-	public LocalDate getExpirationdate() {
+	public Date getExpirationdate() {
 		return this.expiration_date;
 	}
 	
 	public void setExpirationdate(LocalDate savedate) {
-		this.expiration_date = savedate;
+		this.expiration_date = Date.valueOf(savedate);
 	}
 	
 	public String toString() {
