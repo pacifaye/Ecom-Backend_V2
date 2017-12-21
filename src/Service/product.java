@@ -62,6 +62,9 @@ public class product extends HttpServlet {
 	    String linkpicture="";
 	    int idus=0;
 	    int codepostale= 0; 
+	    int prixmin =0;
+	    int prixmax= 0;
+	    
 		// 1> create 
 		// 2> update 
 		// 3> delete 
@@ -89,6 +92,8 @@ public class product extends HttpServlet {
 	        localDate = LocalDate.parse(dt, formatter);
 	        codepostale=Integer.parseInt(request.getParameter("postale")) ;
 	        linkpicture= request.getParameter("link") ;
+	        prixmin = Integer.parseInt(request.getParameter("pricemin")) ;
+	        prixmax = Integer.parseInt(request.getParameter("pricemax")) ;
 	        produit = new Produit(idus,title,desc,categ,linkpicture,0,0,codepostale, localDate ) ; 
 			
 	         data.create(produit);
@@ -97,18 +102,18 @@ public class product extends HttpServlet {
 		   case(1) : 
 			   // data.update(produit);
 		    	ID = Integer.parseInt(request.getParameter("ID")) ;
-		     data.updateDon(ID);
+		     	data.updateDon(ID);
 		    
 			break;
 		    case(2) : 
 			   // data.update(produit);
 		    	ID = Integer.parseInt(request.getParameter("ID")) ;
-		    title = request.getParameter("title") ;
-		    desc = request.getParameter("desc") ;
-		    dt = request.getParameter("date") ;
+		    	title = request.getParameter("title") ;
+		    	desc = request.getParameter("desc") ;
+		    	dt = request.getParameter("date") ;
 			
-		    System.out.println(ID+title+desc+dt);
-		    data.update(ID, title, desc, dt);
+		    	System.out.println(ID+title+desc+dt);
+		    	data.update(ID, title, desc, dt);
 		    
 			break;
 		

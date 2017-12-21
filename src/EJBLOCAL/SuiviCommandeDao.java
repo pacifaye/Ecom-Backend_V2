@@ -69,7 +69,7 @@ public class SuiviCommandeDao implements SuiviCommandeDaoLocal,SuiviCommandeDaoR
     
     @Override
     @Transactional 
-    public void updateprice( int id , int price) {
+    public void updatePrice( int id , int price) {
     	
      	SuiviCommande p = em.find(SuiviCommande.class, id);
      	
@@ -108,10 +108,35 @@ public class SuiviCommandeDao implements SuiviCommandeDaoLocal,SuiviCommandeDaoR
     	
     }
     
+    public SuiviCommande getSuiviCommandeInfo(int idpr, int idus){
+    	SuiviCommande ss = null;
+ 		 
+ 		String sql = "SELECT u FROM SuiviCommande u WHERE u.idus=:arg1 and u.idpr=:arg2 ";
+ 		Query query = this.em.createQuery(sql);	 
+ 		query.setParameter("arg1", idus); 
+ 		query.setParameter("arg2", idpr); 
+ 		 try {
+ 		ss = (SuiviCommande) query.getSingleResult();
+ 		 return ss;
+ 		 }catch(Exception e ) { return null; }
+ 		 
+ 	}
+    
+    
+    
     @Override
     @Transactional 
     public  SuiviCommande create ( SuiviCommande t) {
-        this.em.persist(t);
+    	
+    	SuiviCommande ss = getSuiviCommandeInfo(t.getIdpr(), t.getIdus());
+    	if(ss == null) {
+    		 this.em.persist(t);
+    	}else { if( ss.getstate() == 0  || ss.getstate() == 1   ) {
+    		updatePrice( ss.getIdsc() , t.getprice());
+    	}
+    	}
+    	
+       
         return t;
     }
     

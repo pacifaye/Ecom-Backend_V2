@@ -16,6 +16,7 @@ import org.json.simple.JSONObject;
 
 import EJBLOCAL.ConnectionRemote;
 import EJBLOCAL.UtilisateurDao;
+import EJBLOCAL.UtilisateurDaoRemote;
 import model.Utilisateur;
 import EJBLOCAL.Connection;
 
@@ -32,7 +33,8 @@ public class users extends HttpServlet {
     @EJB
    	private ConnectionRemote data;
     
-     
+    @EJB
+   	private UtilisateurDaoRemote data2; 
 	
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
@@ -70,6 +72,20 @@ public class users extends HttpServlet {
 				
 				// Test Navigateur : 127.0.0.1:8080/JPAEJB/users?choice=1&nom=Faye&prenom=Pacy&email=pacifaye@yahoo.fr&phone=0784657&mdp=azerty		
 			break;
+			
+			case(2) : 
+				
+				int IDUS = Integer.parseInt(request.getParameter("idus"));
+			     Utilisateur us =	data2.getUserInfo(IDUS);
+		
+			if( us ==null ) {
+				  response.getWriter().append("{error: 'utilisateur inconu'}");
+			}else {
+				  response.getWriter().append(us.toJson());
+			}
+			   	
+				
+			break; 
 			 
 		}
 	 

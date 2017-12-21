@@ -42,8 +42,7 @@ public class connect extends HttpServlet {
 	 
 		 
 	 
-	  //String Login = request.getParameter("login"); 
-		String Login = "amine@gmail.com";
+		String Login = request.getParameter("username"); 
 		String password = request.getParameter("password");
 		
 		//String Xapi = ""; 

@@ -73,7 +73,7 @@ public class myoffers extends HttpServlet {
 				ID = Integer.parseInt(request.getParameter("ID")) ;
 		        price = Integer.parseInt(request.getParameter("PR")) ;
 		
-		    data.updateprice(ID, price);
+		    data.updatePrice(ID, price);
 				
 			break; 
 			
