@@ -17,8 +17,12 @@ import org.json.simple.JSONObject;
 
 import EJBLOCAL.Connection;
 import EJBLOCAL.ProduitDao;
+import EJBLOCAL.ProduitDaoLocal;
+import EJBLOCAL.ProduitDaoRemote;
+import EJBLOCAL.SuiviCommandeDaoRemote;
 import model.Formation;
 import model.Produit;
+import model.SuiviCommande;
 
 /**
  * Servlet implementation class product
@@ -32,8 +36,10 @@ public class product extends HttpServlet {
 
     
     @EJB
-	private ProduitDao data;
-	 
+	private ProduitDaoLocal data;
+    @EJB
+	private SuiviCommandeDaoRemote dataSC;
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "nocache");
@@ -42,6 +48,7 @@ public class product extends HttpServlet {
 		JSONObject obj = new JSONObject();
 		JSONArray arrayjson = new JSONArray();
 		List<Produit> produits ; 
+		List<SuiviCommande> Offers ; 
 		
 		
 		
@@ -50,6 +57,7 @@ public class product extends HttpServlet {
 		int ID = 0; 
 		String title ="";
 	    String desc = "";
+	    String categ = "";
 	    String dt ="";
 	    String linkpicture="";
 	    int idus=0;
@@ -61,9 +69,9 @@ public class product extends HttpServlet {
 		// 5> getlist product 
 		// 6> getlist product by user
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-         
-		LocalDate localDate ;
+	//	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+        LocalDate localDate ;
 		
 		
 		
@@ -76,11 +84,12 @@ public class product extends HttpServlet {
 			idus= Integer.parseInt(request.getParameter("idus")) ;
 			title = request.getParameter("title") ;
 	        desc = request.getParameter("desc") ;
+	        categ = request.getParameter("categ") ;
 	        dt = request.getParameter("date") ;
 	        localDate = LocalDate.parse(dt, formatter);
-	        codepostale=Integer.parseInt(request.getParameter("codep")) ;
-	        linkpicture= request.getParameter("link") ;;
-	     produit = new Produit(idus,title,desc,linkpicture,0,0,codepostale, localDate ) ; 
+	        codepostale=Integer.parseInt(request.getParameter("postale")) ;
+	        linkpicture= request.getParameter("link") ;
+	        produit = new Produit(idus,title,desc,categ,linkpicture,0,0,codepostale, localDate ) ; 
 			
 	         data.create(produit);
 			
@@ -94,9 +103,9 @@ public class product extends HttpServlet {
 		    case(2) : 
 			   // data.update(produit);
 		    	ID = Integer.parseInt(request.getParameter("ID")) ;
-		    	title = request.getParameter("title") ;
-		    	desc = request.getParameter("desc") ;
-		    	dt = request.getParameter("date") ;
+		    title = request.getParameter("title") ;
+		    desc = request.getParameter("desc") ;
+		    dt = request.getParameter("date") ;
 			
 		    System.out.println(ID+title+desc+dt);
 		    data.update(ID, title, desc, dt);
@@ -162,8 +171,17 @@ public class product extends HttpServlet {
 				  
 				  if( produits !=null  ) {  
 		 
-		for(Produit Pr : produits ) { arrayjson.add(Pr.toJson()); }
-		response.getWriter().append(arrayjson.toString().replace("\"{", "{").replace("}\"", "}").replace("\\", "")  );	
+					  for(Produit Pr : produits ) { 
+						  int count = 0;
+						  Offers = dataSC.getOffersByProduct(Pr.getIdpr()) ;
+						  if( Offers !=null  ) {  
+								count = Offers.size(); 
+								System.out.println("nombre de commandes sur ce produit : "+count);
+								
+						  }
+						  arrayjson.add(Pr.toJson(count));
+					  }
+					  response.getWriter().append(arrayjson.toString().replace("\"{", "{").replace("}\"", "}").replace("\\", "")  );	
 		
 				  }else { response.getWriter().append("[]");	  }
 		

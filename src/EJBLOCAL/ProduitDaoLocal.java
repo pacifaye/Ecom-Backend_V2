@@ -14,6 +14,7 @@ public interface ProduitDaoLocal {
 	 public void delete(final int id) ;
 	 public Produit create(Produit t);
 	 public void updateDon( int id  ) ;
+	 public List<Produit> getProductsByUser(int iD);
 	 
 	 
 }

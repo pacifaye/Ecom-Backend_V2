@@ -16,6 +16,7 @@ import org.json.simple.JSONObject;
 
 import EJBLOCAL.ProduitDao;
 import EJBLOCAL.SuiviCommandeDao;
+import EJBLOCAL.SuiviCommandeDaoRemote;
 import model.Produit;
 import model.SuiviCommande;
 
@@ -27,9 +28,7 @@ public class myoffers extends HttpServlet {
        
 
     @EJB
-	private SuiviCommandeDao data;
-    @EJB
-    private ProduitDao dataV;
+	private SuiviCommandeDaoRemote data;
 
     public myoffers() {  super();  }
 
@@ -46,6 +45,9 @@ public class myoffers extends HttpServlet {
 			int ID = 0; 
 			int ST = 0; 
 			int price = 0; 
+			int Sidus = 0; 
+			int Sidpr = 0; 
+			int Sprice = 0; 
 			// 1> create 
 			// 2> update 
 			// 3> delete 
@@ -56,14 +58,14 @@ public class myoffers extends HttpServlet {
 			
 			switch( choice ) {
 			case(0) : 
-				// Nouvel Ajout (1)
-				int idcm = Integer.parseInt(request.getParameter("idcm"));
-				int idus = Integer.parseInt(request.getParameter("idus"));
-				int idpr = Integer.parseInt(request.getParameter("idpr"));
-				price = Integer.parseInt(request.getParameter("price"));
-				data.create(new SuiviCommande(idcm,idus,idpr,LocalDate.now(),price,0)); 
-				
-				// http://127.0.0.1:8080/JPAEJB/myoffers?choice=0&idcm=1&idus=1994&idpr=89&price=45
+			
+				Sidus= Integer.parseInt(request.getParameter("idus")) ;
+			    Sidpr= Integer.parseInt(request.getParameter("idpr")) ;
+			    Sprice= Integer.parseInt(request.getParameter("price")) ;
+			     
+				SuiviCommande dt = new SuiviCommande(1,Sidus, Sidpr,LocalDate.now(), Sprice,0);
+			    data.create(dt);
+			 
 			break;
 			
 			case(1) : 
@@ -95,42 +97,28 @@ public class myoffers extends HttpServlet {
 			
 				Offers = data.getOffersByProduct(ID) ;
 			if( Offers !=null  ) {  
-				int count = Offers.size(); 
-				System.out.println("nombre de commandes sur ce produit : "+count);
-				//ajouter count ici permet de le separer des offres (au cas tu ne veux recuperer que ca)
-		//Je le mets en commentaire vu que tu le voulais à l interieur de l affichage des offres
-				//arrayjson.add(count);
-				
-				for(SuiviCommande offre : Offers ) { 
-					//Affichage de count dans chaque offre, si tu veux l enlever il te suffit d enlever le parametre
-					arrayjson.add(offre.toJson(count)); 
-				}
-				
+			
+				for(SuiviCommande offre : Offers ) { arrayjson.add(offre.toJson()); }
 			 response.getWriter().append(arrayjson.toString().replace("\"{", "{").replace("}\"", "}").replace("\\", "")  );	
 			
 			}else { response.getWriter().append("[]");	  }
 				
-			// Test Navigateur : http://127.0.0.1:8080/JPAEJB/myoffers?choice=4&ID=89
+				
 				
 			break; 
 			
-			case(5) :  // Acheteur
+			case(5) :  // vendeur
 				ID = Integer.parseInt(request.getParameter("ID")) ;
 			
 				Offers = data.getOffersByUser(ID) ;
 			if( Offers !=null  ) {  
 			
-				for(SuiviCommande offre : Offers ) { 
-					Produit current_prod = dataV.getProductInfo(offre.getIdpr());
-					
-					arrayjson.add(offre.toJson(current_prod)); 
-				}
-				
+				for(SuiviCommande offre : Offers ) { arrayjson.add(offre.toJson()); }
 			 response.getWriter().append(arrayjson.toString().replace("\"{", "{").replace("}\"", "}").replace("\\", "")  );	
 			
 			}else {    response.getWriter().append("[]");	  }
 				
-			// Test navigateur : 127.0.0.1:8080/JPAEJB/myoffers?choice=5&ID=1994	
+				
 				
 			break; 
 			

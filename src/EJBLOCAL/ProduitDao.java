@@ -21,8 +21,7 @@ import model.Utilisateur;
  * Session Bean implementation class ProduitDao
  */
 @Stateless
-@LocalBean
-public class ProduitDao implements ProduitDaoLocal {
+public class ProduitDao implements ProduitDaoLocal,ProduitDaoRemote {
     
 	public ProduitDao() {  }
     
@@ -75,13 +74,17 @@ public class ProduitDao implements ProduitDaoLocal {
     public Produit getProductInfo(int ID){
 		Produit produit = null;
 		 
-		String sql = "SELECT u FROM Produit u WHERE u.idpr="+ID+"";
+		String sql = "SELECT u FROM Produit u WHERE u.idpr=:arg1  ";
 		Query query = this.em.createQuery(sql);	 
+		query.setParameter("arg1", ID); 
 		
-		produit = (Produit) query.getSingleResult();
-		
-		return produit ; 
-		
+		 try {
+			 produit = (Produit) query.getSingleResult();
+			 return produit ; 
+		 }catch(Exception e ) {
+			 return null;
+		 }
+		 
 		 
 	}
     

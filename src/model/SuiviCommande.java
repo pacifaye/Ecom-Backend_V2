@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
@@ -24,7 +23,7 @@ public class SuiviCommande implements Serializable  {
 
 	 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY )
+	@GeneratedValue(strategy = GenerationType.AUTO )
 	@Column(name="IDSC")
 	private int idsc;
 	
@@ -38,7 +37,7 @@ public class SuiviCommande implements Serializable  {
 	private int idpr;
 	
 	@Column(name="DATE")
-	private Date date;
+	private LocalDate date;
 	
 	@Column(name="PRICE")
 	private int price;
@@ -49,11 +48,12 @@ public class SuiviCommande implements Serializable  {
 	
 	
 	public SuiviCommande() {}
-	public SuiviCommande(int idcm, int idus, int idpr,  LocalDate date, int price ,int state  ) {
+	public SuiviCommande( int idcm, int idus, int idpr,  LocalDate date, int price ,int state  ) {
+		 
 		this.idcm = idcm  ;
 		this.idus = idus; 
 		this.idpr= idpr; 
-		this.date = Date.valueOf(date) ;
+		this.date = date ;
 		this.price = price ; 
 		this.state = state ; 
 	}
@@ -112,11 +112,11 @@ public class SuiviCommande implements Serializable  {
 	
 	
 	public LocalDate getdate() {
-		return this.date.toLocalDate();
+		return this.date;
 	}
 	
 	public void setdate(LocalDate savedate) {
-		this.date = Date.valueOf(savedate);
+		this.date = savedate;
 	}
 	
 	
@@ -127,7 +127,7 @@ public class SuiviCommande implements Serializable  {
 		obj.put("idus", this.getIdus());
 		obj.put("idpr", this.getIdpr());
 		obj.put("idcm", this.getIdcm());
-		obj.put("date", this.getdate().toString());
+		obj.put("data", this.getdate().toString());
 		obj.put("price", this.getprice());
 		obj.put("state", this.getstate());
 		

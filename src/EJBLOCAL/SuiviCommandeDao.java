@@ -19,8 +19,7 @@ import model.SuiviCommande;
  * Session Bean implementation class SuiviCommandeDao
  */
 @Stateless
-@LocalBean
-public class SuiviCommandeDao implements SuiviCommandeDaoLocal {
+public class SuiviCommandeDao implements SuiviCommandeDaoLocal,SuiviCommandeDaoRemote {
 
      
     public SuiviCommandeDao() {  }
@@ -34,12 +33,17 @@ public class SuiviCommandeDao implements SuiviCommandeDaoLocal {
     public List<SuiviCommande> getOffersByProduct( int idpr){
     	List<SuiviCommande> listing = null; 
  		
-    	String sql = "SELECT u  FROM SuiviCommande u  WHERE u.idpr="+idpr+"";        
+    	    String sql = "SELECT u  FROM SuiviCommande u  WHERE u.idpr=:arg1    ";        
  		Query query = this.em.createQuery(sql);	 
+ 		query.setParameter("arg1", idpr);
+ 		
  		 	 
- 		 listing = query.getResultList();
- 		 
- 		 return listing;
+ 		 try {
+ 			listing = query.getResultList();
+ 		  return listing ; 
+ 		 }catch(Exception e ) {
+			 return null;
+		 }
  		   
  	}
     
@@ -47,14 +51,17 @@ public class SuiviCommandeDao implements SuiviCommandeDaoLocal {
     public List<SuiviCommande> getOffersByUser( int idus){
     	List<SuiviCommande> listing = null; 
  		
-    	String sql = "SELECT u  FROM SuiviCommande u  WHERE u.idus="+idus+"";        
+    	    String sql = "SELECT u  FROM SuiviCommande u  WHERE u.idus=:arg1    ";        
  		Query query = this.em.createQuery(sql);	 
- 	
- 		listing = query.getResultList();
- 		 
- 		 return listing;
- 		   
+ 		query.setParameter("arg1", idus);
+ 		
  		 	 
+ 		 try {
+ 			listing = query.getResultList();
+ 		  return listing ; 
+ 		 }catch(Exception e ) {
+			 return null;
+		 }
  		   
  	}
     

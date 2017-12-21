@@ -1,8 +1,9 @@
 package model;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -44,6 +45,10 @@ public class Produit implements Serializable {
 	@Column(name="DESCRIPTION")
 	private String description;
 	
+	@Column(name="CATEG")
+	private String categ;
+	
+	
 	@Column(name="LINKPICTURE")
 	private String linkpicture;
 	
@@ -57,7 +62,7 @@ public class Produit implements Serializable {
 	private int zipcode;
 	
 	@Column(name="EXPIRATION_DATE")
-	private Date expiration_date;
+	private LocalDate expiration_date;
 	
 	 
 	@OneToMany(targetEntity=SuiviCommande.class )
@@ -68,21 +73,22 @@ public class Produit implements Serializable {
 		 this.idpr= idpr; 
 		 this.title=title; 
 		 this.description= description; 
-		 this.expiration_date= Date.valueOf(date); 
+		 this.expiration_date=date; 
 		
 	}
 	
 
-	public Produit( int idus, String title,String description, String linkpicture, int pricemin,int pricemax,int zipcode,LocalDate date){
+	public Produit( int idus, String title,String description,String Categ, String linkpicture, int pricemin,int pricemax,int zipcode,LocalDate date){
 		// this.idpr= idpr; 
 		 this.idus= idus; 
 		 this.title=title; 
 		 this.linkpicture= linkpicture;
 		 this.description= description; 
+		 this.categ = Categ; 
 		this.pricemin= pricemin; 
 		this.pricemax= pricemax; 
 		this.zipcode = zipcode; 
-		this.expiration_date= Date.valueOf(date); 
+		this.expiration_date=date; 
 		
 	}
 	
@@ -98,6 +104,8 @@ public class Produit implements Serializable {
 	public int getIdpr() {
 		return this.idpr;
 	}
+	
+	
 
 	public void setIdpr(int idpr) {
 		this.idpr = idpr;
@@ -127,6 +135,14 @@ public class Produit implements Serializable {
 
 	public void setDescription(String desc) {
 		this.description = desc;
+	}
+	
+	public String getCateg() {
+		return this.categ;
+	}
+
+	public void setCateg(String Categ) {
+		this.categ = Categ;
 	}
 	
 	public String getlinkpicture() {
@@ -162,21 +178,27 @@ public class Produit implements Serializable {
 	}
 	
 	
-	public Date getExpirationdate() {
+	public LocalDate getExpirationdate() {
 		return this.expiration_date;
 	}
 	
 	public void setExpirationdate(LocalDate savedate) {
-		this.expiration_date = Date.valueOf(savedate);
+		this.expiration_date = savedate;
 	}
 	
 	public String toString() {
-		
 		return this.getIdpr() + "-" + this.suivi.size(); 
 	}
 	
 	public String toJson() {
 		
+		
+		LocalDate today = LocalDate.now();
+		LocalDate yesterday = this.getExpirationdate();
+	    
+		int diff = (int) ChronoUnit.DAYS.between( today.atStartOfDay() , yesterday.atStartOfDay());
+		 
+		   
 		JSONObject obj = new JSONObject();
 		obj.put("idus", this.getIdus());
 		obj.put("idpr", this.getIdpr());
@@ -187,6 +209,34 @@ public class Produit implements Serializable {
 		obj.put("pricemax", this.getPriceMax());
 		obj.put("zipcode", this.getZipcode());
 		obj.put("expiration_date", this.getExpirationdate().toString());
+		obj.put("diff", diff);
+		obj.put("categ", this.getCateg());
+	   
+		return obj.toString()	;
+	}
+
+
+	public String toJson(int count) {
+		
+		LocalDate today = LocalDate.now();
+		LocalDate yesterday = this.getExpirationdate();
+	    
+		int diff = (int) ChronoUnit.DAYS.between( today.atStartOfDay() , yesterday.atStartOfDay());
+		 
+		   
+		JSONObject obj = new JSONObject();
+		obj.put("NbOffres", count);
+		obj.put("idus", this.getIdus());
+		obj.put("idpr", this.getIdpr());
+		obj.put("title", this.getTitle());
+		obj.put("description", this.getDescription());
+		obj.put("linkpicture", this.getlinkpicture());
+		obj.put("pricemin", this.getPriceMin());
+		obj.put("pricemax", this.getPriceMax());
+		obj.put("zipcode", this.getZipcode());
+		obj.put("expiration_date", this.getExpirationdate().toString());
+		obj.put("diff", diff);
+		obj.put("categ", this.getCateg());
 	   
 		return obj.toString()	;
 	}

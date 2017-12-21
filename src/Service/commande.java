@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.simple.JSONObject;
 
 import EJBLOCAL.CommandeDao;
+import EJBLOCAL.CommandeDaoRemote;
 import EJBLOCAL.ProduitDao;
 
 /**
@@ -24,7 +25,7 @@ public class commande extends HttpServlet {
     
     public commande() { super(); }
     @EJB
-   	private CommandeDao data;
+   	private CommandeDaoRemote data;
     
     
 	 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

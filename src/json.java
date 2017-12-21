@@ -1,3 +1,7 @@
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +36,20 @@ public class json {
 		main.put("first",resultArray);
 		
 		System.out.println(main.toJSONString());
+		
+		
+		
+		        LocalDate today = LocalDate.now();
+				LocalDate yesterday = today.minusDays(1);
+			 
+				
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+		        LocalDate localDate ;
+		        localDate = LocalDate.parse("10/12/2017", formatter);
+				 
+				 System.out.println(ChronoUnit.DAYS.between( localDate.atStartOfDay(),today.atStartOfDay()));
+				 
+			//int a= 	
 		
 
 	}

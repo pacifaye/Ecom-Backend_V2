@@ -18,8 +18,7 @@ import model.SuiviCommande;
  * Session Bean implementation class CommandeDao
  */
 @Stateless
-@LocalBean
-public class CommandeDao implements CommandeDaoLocal {
+public class CommandeDao implements CommandeDaoLocal,CommandeDaoRemote {
 
 	
     

@@ -13,6 +13,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import EJBLOCAL.Connection;
+import EJBLOCAL.ConnectionRemote;
 import model.Utilisateur;
 
 
@@ -28,7 +29,7 @@ public class connect extends HttpServlet {
  
     
     @EJB
-	private Connection data;
+	private ConnectionRemote data;
     
     
      
